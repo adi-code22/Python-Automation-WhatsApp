@@ -1,18 +1,14 @@
 message0 = "Greetings,"
 message1 = ""
-message7 = "27/5/2021, 3:50 PM"
-message6 = "Session on Digital Electronics"
-message8 = "Resource persons - Sona Davis, Naveena PP"
+message7 = "The following link will be common for all the coming Events in Kaleidoscope"
+message8 = "Tune in at 4pm for more sessions"
 message9 = ""
 message10 = "Please join in Google meet:"
 message11 = "Kaleidoscope Meet"
-message12 = "May 27, 2021, 3:50pm"
-message13 = "Google Meet joining info"
-message14 = "Video call link: https://meet.google.com/exe-tigh-nyh"
-message15 = ""
-message35 = "Thank you and regards,"
-message36 = "Kaleidoscope Team"
-message38 = "Christ College of Engineering"
+message12 = "Everyday at 3:50pm"
+message13 = "Video call link: https://meet.google.com/exe-tigh-nyh"
+
+
 
 # Greetings,
 #
