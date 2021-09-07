@@ -14,7 +14,7 @@ the program will be initiated and whatsapp messages will be sent to numbers in p
 
 An automated Whatsapp Messaging solution built with Selenium using Python allowing to send messages to multiple (saved or unsaved) contacts with ease.
 
-## Getting Started
+## Getting Started 
 
 
 1. Install Pandas
