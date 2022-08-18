@@ -6,6 +6,7 @@ This is python automation using Python and Selenium
 clone the repository as it is and run ```python main.py```
 the program will be initiated and whatsapp messages will be sent to numbers in phoneno.csv file with the content in message.py files
 
+
 ![Whatsapp-Automation](https://cdn3.notifyvisitors.com/blog/wp-content/uploads/2019/12/11071620/capability-n-features-banner1.jpg)
 
 # Automate-Whatsapp-Messaging
