@@ -1,199 +1,123 @@
-from typing import Text
+import os
 from selenium import webdriver
-import time
-
-
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+import pyperclip
+from dataclasses import dataclass
+from typing import List
 
-from message import message0
-from message import message1
-from message import message2
-from message import message3
-from message import message4
-from message import message5
-from message import message6
-from message import message7
-from message import message8
-from message import message9
-from message import message10
-from message import message11
-from message import message12
-from message import message13
-from message import message14
-from message import message15
-from message import message16
-from message import message17
-from message import message18
-from message import message19
-from message import message20
-from message import message21
-from message import message22
-from message import message23
+@dataclass
+class Message:
+    content: str
+    add_newline: bool = True
 
-from message import message24
-from message import message25
-from message import message26
-from message import message27
-from message import message28
-from message import message29
-from message import message30
-from message import message31
-from message import message32
-from message import message33
-from message import message34
-from message import message35
-from message import message36
-from message import message37
-from message import message38
+class WhatsAppAutomation:
+    def __init__(self, image_path: str, messages: List[Message]):
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        self.wait = WebDriverWait(self.driver, 20)
+        self.image_path = os.path.abspath(image_path)
+        self.messages = messages
 
+    def start(self):
+        self.driver.get("https://web.whatsapp.com")
+        input("Scan QR code and press Enter to continue...")
 
-driver = webdriver.Chrome(executable_path='chromedriver.exe')
-driver.get("https://web.whatsapp.com")
-input("Press any key to continue")
+    def send_image(self):
+        try:
+            pyperclip.copy(self.image_path)
 
+            attachment_btn = self.wait.until(EC.element_to_be_clickable(
+                 (By.XPATH, '//*[@id="main"]/footer/div[1]/div/span/div/div[1]/div/button')))
+            attachment_btn.click()
 
-# def send(msg,phonen):
-#     driver.get(f"https://web.whatsapp.com/send?phone=91{phonen}")
-#     time.sleep(5)
+            attachment_btn2 = self.wait.until(EC.presence_of_element_located(
+                 (By.XPATH, '//*[@id="app"]/div/span[5]/div/ul/div/div/div[2]/li/div/input')))
+            attachment_btn2.send_keys(r"/Users/adityakrishnan/Documents/Git/Python-Automation-WhatsApp/image.jpeg")
+            
+        
+            time.sleep(1)  # Wait for paste
+            
+        except Exception as e:
+            raise Exception(f"Failed to send image: {str(e)}")
+        
 
-def image():
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div').click()
-    driver.find_element_by_xpath(
-        '//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/span/div[1]/div/ul/li[1]/button/input').send_keys(
-        r"C:\Users\91703\Desktop\whatsappbot\image.jpeg")
-    time.sleep(3)
-    driver.find_element_by_xpath(
-        '//*[@id="app"]/div[1]/div[1]/div[2]/div[2]/span/div[1]/span/div[1]/div/div[2]/span/div').click()
+    def send_message(self, message: Message):
+        try:
+            # //*[@id="app"]/div/div[3]/div/div[2]/div[2]/span/div/div/div/div[2]/div/div[1]/div[3]/div/div/div[2]/div[1]/div[1]/p
+            msg_box = self.wait.until(EC.presence_of_element_located(
+                (By.CSS_SELECTOR, '#app > div > div.x78zum5.xdt5ytf.x5yr21d > div > div.x10l6tqk.x13vifvy.x17qophe.x78zum5.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x47corl > div.x9f619.x1n2onr6.x5yr21d.x6ikm8r.x10wlt62.x17dzmu4.x1i1dayz.x2ipvbc.x1w8yi2h.xyyilfv.x1iyjqo2.xa1v5g2 > span > div > div > div > div.x1n2onr6.xyw6214.x78zum5.x1r8uery.x1iyjqo2.xdt5ytf.x1hc1fzr.x6ikm8r.x10wlt62.x1tkvqr7 > div > div.x78zum5.x1iyjqo2.xs83m0k.x1r8uery.xdt5ytf.x1qughib.x6ikm8r.x10wlt62 > div.x1c4vz4f.xs83m0k.xdl72j9.x1g77sc7.x78zum5.xozqiw3.x1oa3qoh.x12fk4p8.xeuugli.x2lwn1j.xl56j7k.x1q0g3np.x6s0dn4.x1n2onr6.xo8q3i6.x1y1aw1k.xwib8y2.xkhd6sd.x4uap5 > div > div > div.x1c4vz4f.xs83m0k.xdl72j9.x1g77sc7.x78zum5.xozqiw3.x1oa3qoh.x12fk4p8.xeuugli.x2lwn1j.x1nhvcw1.x1q0g3np.x1cy8zhl.x9f619.xh8yej3.x1ba4aug.x1iorvi4.x1pi30zi.xjkvuk6.x1swvt13.x7nbn6e.x1lq5wgf.xgqcy7u.x30kzoy.x9jhf4c > div.x1n2onr6.xh8yej3.x1k70j0n.x11i5rnm.xzueoph.x1mh8g0r.xisnujt.xzwifym.x1vvkbs.x126k92a.x1hx0egp.lexical-rich-text-input > div.x1hx0egp.x6ikm8r.x1odjw0f.x1k6rcq7.x1lkfr7t > p')))
+            msg_box.send_keys(message.content)
+            
+            if message.add_newline:
+                msg_box.send_keys(Keys.SHIFT, Keys.ENTER, Keys.SHIFT, Keys.ENTER)
+            
+            return True
+        except Exception as e:
+            print(f"Failed to send message: {e}")
+            return False
 
+    def send_to_number(self, phone_number: str):
+        try:
+            self.driver.get(f"https://web.whatsapp.com/send?phone=91{phone_number}")
+            time.sleep(10)
+            
+            self.send_image()
+            for message in self.messages:
+                if not self.send_message(message):
+                    raise Exception("Message sending failed")
+                    
+            # send_btn = self.wait.until(EC.element_to_be_clickable(
+            #     (By.XPATH, '//*[@id="app"]/div/div[3]/div/div[2]/div[2]/span/div/div/div/div[2]/div/div[2]/div[2]/div/div')))
+            # send_btn.click()
+            
+            time.sleep(3)
+            return True
+        except Exception as e:
+            print(f"Failed to send to {phone_number}: {str(e)}")
+            return False
 
-def text(message0, message1, message2, message3, message4, message5, message6, message7, message8, message9, message10,
-         message11, message12, message13, message14, message15, message16, message17, message18, message19, message20,
-         message21, message22, message23, message24, message25, message26, message27, message28, message29, message30,
-         message31, message32, message33, message34, message35, message36, message37, message38, phoneno):
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message0)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message2)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message4)
-    # Basics of Programming
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message6)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message7)
-    # Session on working of home appliances and energy meter
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message9)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message10)
-    # Session on digital electronics
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message12)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message13)
-    # Session on dynamic architecture
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message15)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message16)
-    # Introduction to App development
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message18)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message19)
-    # Introduction to Web development
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message21)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message22)
-    # Session on machine learning
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message24)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message25)
-    # Introduction to ethical hacking
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message27)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message28)
-    # Register and link
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message30)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message31)
-    # Kindly Share
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message33)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    # Thanks and Regards
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message35)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message36)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message37)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.SHIFT, Keys.ENTER)
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(message38)
+    def process_numbers(self, csv_path: str):
+        success_count = 0
+        fail_count = 0
+        
+        with open(csv_path, 'r') as file:
+            phone_numbers = [line.strip() for line in file if line.strip()]
+            
+        total = len(phone_numbers)
+        for i, number in enumerate(phone_numbers, 1):
+            print(f"Processing {i}/{total}: {number}")
+            if self.send_to_number(number):
+                success_count += 1
+            else:
+                fail_count += 1
+                
+        print(f"\nSummary:\nSuccessful: {success_count}\nFailed: {fail_count}")
 
+    def close(self):
+        self.driver.quit()
 
-
-
-    driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[3]/button/span').click()
-
-
-def send(message0, message1, message2, message3, message4, message5, message6, message7, message8, message9, message10,
-         message11, message12, message13, message14, message15, message16, message17, message18, message19, message20,
-         message21, message22, message23, message24, message25, message26, message27, message28, message29, message30,
-         message31, message32, message33, message34, message35, message36, message37, message38, phoneno):
+def main():
+    messages = [
+        Message("Hello!"),
+        Message("This is a test message"),
+        # Add more messages
+    ]
+    
+    automation = WhatsAppAutomation(
+        image_path="/Users/adityakrishnan/Documents/Git/Python-Automation-WhatsApp/image.jpeg",
+        messages=messages
+    )
+    
     try:
-        driver.get(f"https://web.whatsapp.com/send?phone=91{phoneno}")
-    except:
-        print(phoneno + "Error Occured in driver")
+        automation.start()
+        automation.process_numbers("./phoneno.csv")
+    finally:
+        automation.close()
 
-    time.sleep(15)
-
-    try:
-        image()
-    except:
-        print(phoneno + "Error Occured in uploading image")
-
-
-    try:
-        text(message0, message1, message2, message3, message4, message5, message6, message7, message8, message9,
-             message10,
-             message11, message12, message13, message14, message15, message16, message17, message18, message19,
-             message20,
-             message21, message22, message23, message24, message25, message26, message27, message28, message29,
-             message30,
-             message31, message32, message33, message34, message35, message36, message37, message38, phoneno)
-    except:
-        print(phoneno + "Error Occured in adding Text")
-
-    time.sleep(5)
-
-
-with open('./phoneno.csv', 'r')as myfile:
-    count = 1
-    while myfile:
-        phoneno = myfile.readline()
-        if phoneno == "":
-            print("All Messages Sent")
-            break
-
-        send(message0, message1, message2, message3, message4, message5, message6, message7, message8, message9,
-             message10, message11, message12, message13, message14, message15, message16, message17, message18,
-             message19, message20, message21, message22, message23, message24, message25, message26, message27,
-             message28, message29, message30, message31, message32, message33, message34, message35, message36,
-             message37, message38, phoneno)
-
+if __name__ == "__main__":
+    main()
