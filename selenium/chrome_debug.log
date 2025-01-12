@@ -1,0 +1,19 @@
+[15380:259:0109/003618.890248:WARNING:chrome_main_delegate.cc(672)] This is Chrome version 131.0.6778.265 (not a warning)
+[15380:259:0109/003619.104893:INFO:chrome_browser_cloud_management_controller.cc(196)] No machine level policy manager exists.
+[15380:259:0109/003621.855136:INFO:CONSOLE(156)] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yu/r/I8e-uGyQBGC.js (156)
+[15380:259:0109/003629.957581:WARNING:controller_impl.cc(1192)] Background download complete, client: 6, completion type: 0, file size:5157
+[15380:259:0109/003630.081183:WARNING:controller_impl.cc(1192)] Background download complete, client: 6, completion type: 0, file size:265059
+[15380:259:0109/003632.134794:WARNING:controller_impl.cc(1192)] Background download complete, client: 6, completion type: 0, file size:883094
+[15380:259:0109/003632.525234:WARNING:controller_impl.cc(1192)] Background download complete, client: 6, completion type: 0, file size:45168
+[15380:259:0109/003634.742234:WARNING:controller_impl.cc(1192)] Background download complete, client: 6, completion type: 0, file size:2200227
+[15380:259:0109/003635.123298:WARNING:controller_impl.cc(1192)] Background download complete, client: 6, completion type: 0, file size:4680
+[15380:259:0109/003635.978656:WARNING:controller_impl.cc(1192)] Background download complete, client: 6, completion type: 0, file size:118577
+[15380:259:0109/003636.557031:WARNING:controller_impl.cc(1192)] Background download complete, client: 6, completion type: 0, file size:2747168
+[15380:259:0109/003640.517866:INFO:CONSOLE(71)] "ErrorUtils caught an error:
+
+Converting to a string will drop content data. Hash="undefined" Translation="{author} added the group {groups}" Content="{"key":null,"ref":null,"props":{"contact":{"id":"918921964884@c.us","type":"in","isBusiness":false,"isEnterprise":false,"isSmb":false,"textStatusLastUpdateTime":-1,"syncToAddressbook":false},"showNotifyName":true,"elevatedPushNamesEnabled":true,"onCl" (type=object,Object)
+
+Subsequent non-fatal errors won't be logged; see https://fburl.com/debugjs.", source: https://static.whatsapp.net/rsrc.php/v4/yJ/r/sCs_SFWyj76.js (71)
+[15380:259:0109/004333.210615:INFO:CONSOLE(156)] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yu/r/I8e-uGyQBGC.js (156)
+[15380:259:0109/004337.784102:INFO:CONSOLE(89)] "Uncaught (in promise) NotInitializedError", source: https://static.whatsapp.net/rsrc.php/v4/yx/r/9F0z5Z_OrY0.js (89)
+[15380:259:0109/004415.675546:ERROR:network_service_instance_impl.cc(613)] Network service crashed, restarting service.
