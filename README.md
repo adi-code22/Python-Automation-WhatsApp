@@ -2,6 +2,8 @@
 
 This is python automation using Python and Selenium
 
+Quick Demo: https://drive.google.com/file/d/15Y1BcnGvVqC_7QU1SPLPt9GCIbnINv23/view?usp=drivesdk
+
 # Give it a try
 clone the repository as it is and run ```python main.py```
 the program will be initiated and whatsapp messages will be sent to numbers in phoneno.csv file with the content in message.py files
